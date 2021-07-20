@@ -79,6 +79,19 @@ const displayMovements = function (movements) {
 
 displayMovements(account1.movements);
 
+const createUsernames = function (accs) {
+  accs.forEach(function (acc) {
+    acc.username = acc.owner
+      .toLowerCase()
+      .split(' ')
+      .map(name => name[0])
+      .join('');
+  });
+};
+
+createUsernames(accounts);
+console.log(accounts);
+
 ///////////////// LECTURES
 
 /*
@@ -175,5 +188,65 @@ const currenciesUniques = new Set(['EUA', 'EUR', 'EUA', 'EUR']); // retorn uniqu
 currenciesUniques.forEach(function (value, _, map) {
   console.log(`${value}`);
 });
+
+
+
+// CHALLENGE 1
+
+const dogsJulia = [3, 5, 2, 12, 7];
+const dogsKate = [4, 1, 15, 8, 3];
+const dogsCount = [];
+
+const checkDogs = function (dogsJulia, dogsKate) {
+  // first challenge
+  const correctdJuliaDogs = dogsJulia.slice();
+  console.log(correctdJuliaDogs);
+  correctdJuliaDogs.splice(0, 1);
+  correctdJuliaDogs.splice(-2);
+
+  // second challenge
+  const dogs = correctdJuliaDogs.concat(dogsKate);
+
+  dogs.forEach(function (dogAge, i) {
+    if (dogAge >= 3) {
+      console.log(
+        `The dog number ${i + 1} dog has ${dogAge} years, so is an adult. `
+      );
+    } else {
+      console.log(
+        `The dog number ${i + 1} dog has ${dogAge} years, so is an puppy. `
+      );
+    }
+  });
+};
+
+console.log(checkDogs(dogsJulia, dogsKate));
+
+// MAP
+const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
+
+const eurToEus = 2;
+
+const convertMany = movements.map(function (movements) {
+  return movements * eurToEus;
+});
+
+const convertM = movements.map(movements => movements * eurToEus);
+
+console.log(convertM);
+
+const movementeMany = [];
+for (const mov of movements) {
+  movementeMany.push(movements * eurToEus);
+}
+
+const movementDescription = movements.map(
+  (mov, i) =>
+    `Movement:${[i + 1]} You ${mov > 0 ? 'deposited' : 'withdrew'} ${Math.abs(
+      mov
+    )}`
+);
+
+console.log(movementDescription);
 
 */
