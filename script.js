@@ -79,6 +79,13 @@ const displayMovements = function (movements) {
 
 displayMovements(account1.movements);
 
+const calcDisplayBalance = function (movements) {
+  const balance = movements.reduce((acc, mov) => acc + mov, 0);
+  labelBalance.textContent = `${balance} EUR`;
+};
+
+calcDisplayBalance(account1.movements);
+
 const createUsernames = function (accs) {
   accs.forEach(function (acc) {
     acc.username = acc.owner
@@ -90,7 +97,6 @@ const createUsernames = function (accs) {
 };
 
 createUsernames(accounts);
-console.log(accounts);
 
 ///////////////// LECTURES
 
@@ -249,4 +255,75 @@ const movementDescription = movements.map(
 
 console.log(movementDescription);
 
+
+
+//// FILTER
+const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
+
+const deposit = movements.filter(function (mov) {
+  return mov > 0;
+});
+console.log(deposit);
+
+const depositArr = movements.filter(mov => mov > 0);
+console.log(depositArr);
+
+const depositFor = [];
+
+for (const mov of movements) if (mov > 0) depositFor.push(mov);
+
+console.log(depositFor);
+
+const withdraws = movements.filter(mov => mov < 0);
+
+console.log(withdraws);
+
+// REDUCE
+
+const accumulator = movements.reduce(function (acc, acr, i, arr) {
+  return acc + acr;
+}, 0);
+console.log(accumulator);
+
+const accumulator2 = movements.reduce((acc, acr) => acc + acr, 0);
+
+console.log(accumulator2);
+
+let redu = 0;
+
+for (const mov of movements) {
+  redu += mov;
+}
+
+// maximum value
+
+const max = movements.reduce((acc, mov) => (acc < mov ? (acc = mov) : acc), 0);
+
+console.log(max);
+
 */
+
+// CHALLENGE 2
+
+const dogsAge = [5, 2, 4, 1, 15, 8, 3];
+
+// first challenge
+
+const calcAverageHumanAge = function (ages) {
+  const ageDogForHumanAge = ages.map((ages, i) =>
+    ages <= 2 ? 2 * ages : ages * 4 + 16
+  );
+  console.log(ageDogForHumanAge);
+
+  // second challenge
+
+  const dogsOld = ageDogForHumanAge.filter((ages, i) => ages >= 18);
+  console.log(dogsOld);
+
+  // third challenge
+
+  const averageHumanAge =
+    dogsOld.reduce((acc, age, i) => acc + age, 0) / dogsOld.length;
+  console.log(averageHumanAge);
+};
+calcAverageHumanAge(dogsAge);
