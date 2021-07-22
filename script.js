@@ -4,7 +4,7 @@
 
 // Data
 const account1 = {
-  owner: 'Jonas Schmedtmann',
+  owner: 'Douglas Duarte',
   movements: [200, 450, -400, 3000, -650, -130, 70, 1300],
   interestRate: 1.2, // %
   pin: 1111,
@@ -76,13 +76,11 @@ const displayMovements = function (movements) {
     containerMovements.insertAdjacentHTML('afterbegin', html);
   });
 };
-displayMovements(account1.movements);
 
 const calcDisplayBalance = function (movements) {
   const balance = movements.reduce((acc, mov) => acc + mov, 0);
   labelBalance.textContent = `${balance}€`;
 };
-calcDisplayBalance(account1.movements);
 
 const calcDisplaySummary = function (movements) {
   const incomes = movements
@@ -103,8 +101,6 @@ const calcDisplaySummary = function (movements) {
   labelSumInterest.textContent = `${interest}€`;
 };
 
-calcDisplaySummary(account1.movements);
-
 const createUsernames = function (accs) {
   accs.forEach(function (acc) {
     acc.username = acc.owner
@@ -116,6 +112,32 @@ const createUsernames = function (accs) {
 };
 
 createUsernames(accounts);
+
+//== Event handler
+let currentAcount;
+btnLogin.addEventListener('click', function (e) {
+  // Prevent form from submitting
+  e.preventDefault();
+
+  currentAcount = accounts.find(
+    acc => acc.username === inputLoginUsername.value
+  );
+  console.log(currentAcount);
+
+  if (currentAcount?.pin === Number(inputLoginPin.value)) {
+    // Display UI and message
+    labelWelcome.textContent = `Welcome back, ${
+      currentAcount.owner.split(' ')[0]
+    }`;
+    containerApp.style.opacity = 100;
+    // Display movements
+    displayMovements(currentAcount.movements);
+    // Display balance
+    calcDisplayBalance(currentAcount.movements);
+    // Display summary
+    calcDisplaySummary(currentAcount.movements);
+  }
+});
 
 ///////////////// LECTURES
 
@@ -381,8 +403,6 @@ const calcAverageHumanAge = function (ages) {
 };
 calcAverageHumanAge(dogsAge);
 
-*/
-
 const calcAverageHumanAge = ages =>
   ages
     .map(ages => (ages <= 2 ? 2 * ages : ages * 4 + 16))
@@ -392,3 +412,10 @@ const calcAverageHumanAge = ages =>
 const dogsAge = calcAverageHumanAge([5, 2, 4, 1, 15, 8, 3]);
 
 console.log(dogsAge);
+
+// FIND
+
+const account = accounts.find(acc => acc.owner === 'Jessica Davis');
+
+console.log(account);
+*/
