@@ -59,10 +59,12 @@ const inputLoanAmount = document.querySelector('.form__input--loan-amount');
 const inputCloseUsername = document.querySelector('.form__input--user');
 const inputClosePin = document.querySelector('.form__input--pin');
 
-const displayMovements = function (movements) {
+const displayMovements = function (movements, sort = false) {
   containerMovements.innerHTML = '';
 
-  movements.forEach(function (mov, i) {
+  const movs = sort ? movements.slice().sort((a, b) => a - b) : movements;
+
+  movs.forEach(function (mov, i) {
     const type = mov > 0 ? 'deposit' : 'withdrawal';
 
     const html = `
@@ -174,8 +176,24 @@ btnTransfer.addEventListener('click', function (e) {
   }
 });
 
+btnLoan.addEventListener('click', function (e) {
+  e.preventDefault();
+
+  const amount = Number(inputLoanAmount.value);
+
+  if (amount > 0 && currentAcount.movements.some(mov => mov >= amount * 0.1)) {
+    // add movement
+    currentAcount.movements.push(amount);
+
+    // update UI
+    updateUI(currentAcount);
+  }
+  inputLoanAmount.value = '';
+});
+
 btnClose.addEventListener('click', function (e) {
   e.preventDefault();
+
   if (
     currentAcount.username === inputCloseUsername.value &&
     currentAcount.pin === Number(inputClosePin.value)
@@ -184,7 +202,21 @@ btnClose.addEventListener('click', function (e) {
       acc => acc.username === currentAcount.username
     );
     console.log(index);
+
+    // Delete account
+    accounts.splice(index, 1);
+
+    // Hide UI
+    containerApp.style.opacity = 0;
   }
+  inputCloseUsername.value = inputClosePin.value = '';
+});
+
+let sorted = false;
+btnSort.addEventListener('click', function (e) {
+  e.preventDefault();
+  displayMovements(currentAcount.movements, !sorted);
+  sorted = !sorted;
 });
 
 ///////////////// LECTURES
@@ -466,4 +498,8 @@ console.log(dogsAge);
 const account = accounts.find(acc => acc.owner === 'Jessica Davis');
 
 console.log(account);
+
+
+const z = Array.from({ length: 100 }, (_, i) => Math.random(4, 4));
+console.log(z);
 */
